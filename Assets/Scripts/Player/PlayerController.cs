@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using R3;
 
 namespace BulletsSoul.Player
 {
@@ -14,17 +15,23 @@ namespace BulletsSoul.Player
 
     public class PlayerController : MonoBehaviour
     {
+        [Header("Movement")]
         [SerializeField] private float normalMoveSpeed = 2f;
         [SerializeField] private float sprintMoveSpeed = 2.5f;
 
+        [Header("Rolling")]
         [SerializeField] private float rollingTime = 0.4f;
         [SerializeField] private float rollingMoveSpeed = 3f;
         [SerializeField] private float rollingCooldown = 1f;
 
+        [Header("Stamina")]
         [SerializeField] private float maxStamina = 100f;
         [SerializeField] private float sprintStaminaCost = 10f;
         [SerializeField] private float rollStaminaCost = 30f;
         [SerializeField] private float staminaRecoveryRate = 15f;
+
+        public ReactiveProperty<float> CurrentStamina { get; private set; }
+        public ReactiveProperty<float> MaxStamina { get; private set; }
 
         private float _currentMoveSpeed;
         private float _currentStamina;
@@ -42,6 +49,8 @@ namespace BulletsSoul.Player
         private void Awake()
         {
             _currentStamina = maxStamina;
+            CurrentStamina = new ReactiveProperty<float>(_currentStamina);
+            MaxStamina = new ReactiveProperty<float>(maxStamina);
         }
 
         private void Update()
@@ -69,8 +78,8 @@ namespace BulletsSoul.Player
 
             if (!_inputSprint && _actionState != PlayerActionState.Rolling)
             {
-                // 回复耐力
                 _currentStamina = Mathf.Min(_currentStamina + staminaRecoveryRate * Time.deltaTime, maxStamina);
+                CurrentStamina.Value = _currentStamina;
             }
         }
 
@@ -96,6 +105,7 @@ namespace BulletsSoul.Player
             if (canSprint && _inputDirection != Vector2.zero)
             {
                 _currentStamina = Mathf.Max(_currentStamina - sprintStaminaCost * Time.deltaTime, 0f);
+                CurrentStamina.Value = _currentStamina;
             }
 
             transform.Translate(_inputDirection * (_currentMoveSpeed * Time.deltaTime));
@@ -111,6 +121,7 @@ namespace BulletsSoul.Player
 
                 _rollingDirection = _inputDirection;
                 _currentStamina -= rollStaminaCost;
+                CurrentStamina.Value = _currentStamina;
             }
         }
 
