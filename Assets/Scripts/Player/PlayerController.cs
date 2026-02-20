@@ -21,7 +21,13 @@ namespace BulletsSoul.Player
         [SerializeField] private float rollingMoveSpeed = 3f;
         [SerializeField] private float rollingCooldown = 1f;
 
+        [SerializeField] private float maxStamina = 100f;
+        [SerializeField] private float sprintStaminaCost = 10f;
+        [SerializeField] private float rollStaminaCost = 30f;
+        [SerializeField] private float staminaRecoveryRate = 15f;
+
         private float _currentMoveSpeed;
+        private float _currentStamina;
 
         private float _rollingTimer;
         private float _rollingCooldownTimer;
@@ -32,6 +38,11 @@ namespace BulletsSoul.Player
         private Vector2 _inputDirection;
         private bool _inputSprint;
         private bool _inputRoll;
+
+        private void Awake()
+        {
+            _currentStamina = maxStamina;
+        }
 
         private void Update()
         {
@@ -55,6 +66,12 @@ namespace BulletsSoul.Player
         {
             if (_rollingCooldownTimer > 0f)
                 _rollingCooldownTimer -= Time.deltaTime;
+
+            if (!_inputSprint && _actionState != PlayerActionState.Rolling)
+            {
+                // 回复耐力
+                _currentStamina = Mathf.Min(_currentStamina + staminaRecoveryRate * Time.deltaTime, maxStamina);
+            }
         }
 
         private void HandleInput()
@@ -73,20 +90,27 @@ namespace BulletsSoul.Player
 
         private void HandleMove()
         {
-            _currentMoveSpeed = _inputSprint ? sprintMoveSpeed : normalMoveSpeed;
+            bool canSprint = _inputSprint && _currentStamina > 0;
+            _currentMoveSpeed = canSprint ? sprintMoveSpeed : normalMoveSpeed;
+
+            if (canSprint && _inputDirection != Vector2.zero)
+            {
+                _currentStamina = Mathf.Max(_currentStamina - sprintStaminaCost * Time.deltaTime, 0f);
+            }
 
             transform.Translate(_inputDirection * (_currentMoveSpeed * Time.deltaTime));
         }
 
         private void TryStartRoll()
         {
-            if (_inputRoll && _rollingCooldownTimer <= 0f && _inputDirection != Vector2.zero)
+            if (_inputRoll && _rollingCooldownTimer <= 0f && _inputDirection != Vector2.zero && _currentStamina >= rollStaminaCost)
             {
                 _actionState = PlayerActionState.Rolling;
                 _rollingTimer = 0f;
                 _rollingCooldownTimer = rollingCooldown;
 
                 _rollingDirection = _inputDirection;
+                _currentStamina -= rollStaminaCost;
             }
         }
 
