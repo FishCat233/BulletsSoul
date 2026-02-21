@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
@@ -35,9 +35,10 @@ namespace BulletsSoul.Player
 
         public ReactiveProperty<float> CurrentStamina { get; private set; }
         public ReactiveProperty<float> MaxStamina { get; private set; }
+        public ReactiveProperty<float> CurrentHealth { get; private set; }
+        public ReactiveProperty<float> MaxHealth { get; private set; }
 
         private float _currentHealth = 1f;
-
         private float _currentMoveSpeed;
         private float _currentStamina;
 
@@ -57,6 +58,8 @@ namespace BulletsSoul.Player
             _currentStamina = maxStamina;
             CurrentStamina = new ReactiveProperty<float>(_currentStamina);
             MaxStamina = new ReactiveProperty<float>(maxStamina);
+            CurrentHealth = new ReactiveProperty<float>(_currentHealth);
+            MaxHealth = new ReactiveProperty<float>(maxHealth);
         }
 
         private void Update()
@@ -142,6 +145,22 @@ namespace BulletsSoul.Player
             }
 
             transform.Translate(_rollingDirection * (rollingMoveSpeed * Time.deltaTime));
+        }
+
+        public void TakeDamage(float damage)
+        {
+            _currentHealth = Mathf.Max(_currentHealth - damage, 0f);
+            CurrentHealth.Value = _currentHealth;
+
+            if (_currentHealth <= 0f)
+            {
+                Die();
+            }
+        }
+
+        private void Die()
+        {
+            Debug.Log("Player died!");
         }
     }
 }

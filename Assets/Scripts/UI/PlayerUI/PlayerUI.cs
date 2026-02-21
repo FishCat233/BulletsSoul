@@ -11,6 +11,7 @@ namespace BulletsSoul.UI.PlayerUI
 
         public PlayerController pc;
         [SerializeField] private AnimatedProgressBar staminaBar;
+        [SerializeField] private AnimatedProgressBar healthBar;
 
         private void Awake()
         {
@@ -25,19 +26,35 @@ namespace BulletsSoul.UI.PlayerUI
 
         private void Start()
         {
-            if (pc == null || staminaBar == null) return;
+            if (pc == null) return;
 
             var d = Disposable.CreateBuilder();
 
-            pc.CurrentStamina.Subscribe(stamina =>
+            if (staminaBar != null)
             {
-                staminaBar.CurrentValue.Value = stamina;
-            }).AddTo(ref d);
+                pc.CurrentStamina.Subscribe(stamina =>
+                {
+                    staminaBar.CurrentValue.Value = stamina;
+                }).AddTo(ref d);
 
-            pc.MaxStamina.Subscribe(maxStamina =>
+                pc.MaxStamina.Subscribe(maxStamina =>
+                {
+                    staminaBar.TotalValue.Value = maxStamina;
+                }).AddTo(ref d);
+            }
+
+            if (healthBar != null)
             {
-                staminaBar.TotalValue.Value = maxStamina;
-            }).AddTo(ref d);
+                pc.CurrentHealth.Subscribe(health =>
+                {
+                    healthBar.CurrentValue.Value = health;
+                }).AddTo(ref d);
+
+                pc.MaxHealth.Subscribe(maxHealth =>
+                {
+                    healthBar.TotalValue.Value = maxHealth;
+                }).AddTo(ref d);
+            }
 
             d.RegisterTo(destroyCancellationToken);
         }
