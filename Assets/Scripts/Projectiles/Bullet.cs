@@ -1,45 +1,53 @@
 ﻿using BulletsSoul.Player;
+using BulletsSoul.Projectile;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace BulletsSouls.Projectile
 {
-    [RequireComponent(typeof(Collider2D))]
     public class Bullet : MonoBehaviour
     {
-        public float damage = 10f;
+        public CollisionDamager damager;
 
-        private PlayerController _playerController;
-        private bool _playerInTrigger;
+        [Header("移动")]
+        public float speed = 1.0f;
+        public Vector3 direction = Vector3.zero;
 
-        private void FixedUpdate()
+        [Header("生命周期")]
+        public float maxLifetime = 20.0f;
+
+        private float _lifeTimer = 0f;
+
+        private void Start()
         {
-            if (_playerInTrigger && _playerController != null)
-            {
-                _playerController.TakeDamage(damage);
-            }
+            damager = GetComponent<CollisionDamager>();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void Update()
         {
-            if (collision.CompareTag("Player"))
-            {
-                _playerController = collision.GetComponent<PlayerController>();
-                if (_playerController != null)
-                {
-                    _playerController.TakeDamage(damage);
-                    _playerInTrigger = true;
-                }
-            }
+            HandleTimer();
+
+            HandleLifeTime();
+
+            HandleMovement();
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        private void HandleTimer()
         {
-            if (collision.CompareTag("Player"))
-            {
-                _playerInTrigger = false;
-                _playerController = null;
-            }
+            _lifeTimer += Time.deltaTime;
         }
+
+        private void HandleLifeTime()
+        {
+            if (_lifeTimer > maxLifetime) Destroy(gameObject);
+        }
+
+        private void HandleMovement()
+        {
+            var deltaPosition = speed * Time.deltaTime * direction.normalized;
+            transform.position += deltaPosition;
+        }
+
     }
 
 }
