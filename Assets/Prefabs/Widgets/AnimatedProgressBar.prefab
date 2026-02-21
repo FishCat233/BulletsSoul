@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4342340927670491235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 394.24, y: 18.220001}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &5602163892609306532
 CanvasRenderer:
@@ -107,10 +107,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4342340927670491235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 394.24, y: 18.220001}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3958586056570389644
 CanvasRenderer:
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 4342340927670491235}
   - component: {fileID: 6860857023232666709}
   m_Layer: 5
-  m_Name: Stamina
+  m_Name: AnimatedProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,9 +184,9 @@ RectTransform:
   - {fileID: 8467720217802119339}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 226.7, y: -69.6}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 394.24, y: 18.220001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6860857023232666709
@@ -238,10 +238,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4342340927670491235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 394.24, y: 18.220001}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6395986417762525764
 CanvasRenderer:

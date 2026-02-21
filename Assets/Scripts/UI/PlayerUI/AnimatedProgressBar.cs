@@ -1,14 +1,14 @@
 ﻿using DG.Tweening;
 using R3;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 namespace BulletsSoul.UI.PlayerUI
 {
+    [RequireComponent(typeof(RectTransform))]
     public class AnimatedProgressBar : MonoBehaviour
     {
+        private RectTransform _rectTransform;
+
         [SerializeField] private RectTransform background;
         [SerializeField] private RectTransform delta;
         [SerializeField] private RectTransform current;
@@ -25,6 +25,8 @@ namespace BulletsSoul.UI.PlayerUI
 
         private void Start()
         {
+            _rectTransform = GetComponent<RectTransform>();
+
             _previousValue = CurrentValue.Value;
 
             var d = Disposable.CreateBuilder();
@@ -50,14 +52,14 @@ namespace BulletsSoul.UI.PlayerUI
             float newRatio = newValue / TotalValue.Value;
 
             _currentTween?.Kill();
-            _currentTween = current.DOSizeDelta(new Vector2(newRatio * background.sizeDelta.x, current.sizeDelta.y), animationDuration)
+            _currentTween = current.DOSizeDelta(new Vector2((1 - newRatio) * -_rectTransform.sizeDelta.x, current.sizeDelta.y), animationDuration)
                 .SetEase(Ease.OutQuad);
 
             if (newValue < _previousValue)
             {
                 _deltaTween?.Kill();
-                delta.sizeDelta = new Vector2(previousRatio * background.sizeDelta.x, delta.sizeDelta.y);
-                _deltaTween = delta.DOSizeDelta(new Vector2(newRatio * background.sizeDelta.x, delta.sizeDelta.y), deltaAnimationDuration)
+                delta.sizeDelta = new Vector2((1 - previousRatio) * -_rectTransform.sizeDelta.x, delta.sizeDelta.y);
+                _deltaTween = delta.DOSizeDelta(new Vector2((1 - newRatio) * -_rectTransform.sizeDelta.x, delta.sizeDelta.y), deltaAnimationDuration)
                     .SetEase(Ease.OutQuad);
             }
 
