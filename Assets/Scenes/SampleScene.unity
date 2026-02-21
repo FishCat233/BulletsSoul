@@ -600,7 +600,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1419452118}
   - component: {fileID: 1419452117}
-  - component: {fileID: 1419452121}
   - component: {fileID: 1419452119}
   - component: {fileID: 1419452120}
   m_Layer: 0
@@ -699,6 +698,7 @@ MonoBehaviour:
   sprintStaminaCost: 8
   rollStaminaCost: 30
   staminaRecoveryRate: 15
+  invincibilityDuration: 0.5
 --- !u!70 &1419452120
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -734,33 +734,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.46964318, y: 0.888507}
   m_Direction: 0
---- !u!50 &1419452121
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419452116}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &1687630337
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +775,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1925521813}
   - component: {fileID: 1925521812}
+  - component: {fileID: 1925521815}
   - component: {fileID: 1925521811}
   - component: {fileID: 1925521814}
   m_Layer: 0
@@ -926,6 +900,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  damageInterval: 0.2
+--- !u!50 &1925521815
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925521810}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1983297177
 GameObject:
   m_ObjectHideFlags: 0
