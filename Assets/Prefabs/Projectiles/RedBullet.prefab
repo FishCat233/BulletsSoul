@@ -164,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damager: {fileID: 0}
   speed: 1
-  direction: {x: 0, y: 0, z: 0}
+  direction: {x: 1, y: 0, z: 0}
   maxLifetime: 20
 --- !u!114 &3927658522331020478
 MonoBehaviour:
