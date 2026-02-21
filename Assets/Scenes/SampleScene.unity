@@ -522,13 +522,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 692459505ed2f844f8a2105b0b282ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalMoveSpeed: 4
-  sprintMoveSpeed: 2
+  normalMoveSpeed: 2
+  sprintMoveSpeed: 4
   rollingTime: 0.2
   rollingMoveSpeed: 16
   rollingCooldown: 0.4
   maxStamina: 100
-  sprintStaminaCost: 10
+  sprintStaminaCost: 8
   rollStaminaCost: 30
   staminaRecoveryRate: 15
 --- !u!1 &1687630337
