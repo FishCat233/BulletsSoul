@@ -33,10 +33,14 @@ namespace BulletsSoul.Player
         [SerializeField] private float rollStaminaCost = 30f;
         [SerializeField] private float staminaRecoveryRate = 15f;
 
+        [Header("Invincibility")]
+        [SerializeField] private float invincibilityDuration = 0.5f;
+
         public ReactiveProperty<float> CurrentStamina { get; private set; }
         public ReactiveProperty<float> MaxStamina { get; private set; }
         public ReactiveProperty<float> CurrentHealth { get; private set; }
         public ReactiveProperty<float> MaxHealth { get; private set; }
+        public bool IsInvincible { get; private set; }
 
         private float _currentHealth = 1f;
         private float _currentMoveSpeed;
@@ -44,6 +48,7 @@ namespace BulletsSoul.Player
 
         private float _rollingTimer;
         private float _rollingCooldownTimer;
+        private float _invincibilityTimer;
         private Vector2 _rollingDirection;
 
         private PlayerActionState _actionState = PlayerActionState.Move;
@@ -84,6 +89,15 @@ namespace BulletsSoul.Player
         {
             if (_rollingCooldownTimer > 0f)
                 _rollingCooldownTimer -= Time.deltaTime;
+
+            if (_invincibilityTimer > 0f)
+            {
+                _invincibilityTimer -= Time.deltaTime;
+                if (_invincibilityTimer <= 0f)
+                {
+                    IsInvincible = false;
+                }
+            }
 
             if (!_inputSprint && _actionState != PlayerActionState.Rolling)
             {
@@ -149,6 +163,8 @@ namespace BulletsSoul.Player
 
         public void TakeDamage(float damage)
         {
+            if (IsInvincible) return;
+
             _currentHealth = Mathf.Max(_currentHealth - damage, 0f);
             CurrentHealth.Value = _currentHealth;
 
@@ -156,11 +172,21 @@ namespace BulletsSoul.Player
             {
                 Die();
             }
+            else
+            {
+                ActivateInvincibility();
+            }
         }
 
         private void Die()
         {
             Debug.Log("Player died!");
+        }
+
+        private void ActivateInvincibility()
+        {
+            IsInvincible = true;
+            _invincibilityTimer = invincibilityDuration;
         }
     }
 }
